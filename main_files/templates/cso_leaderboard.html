@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSO Leaderboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    color: #333;
+    background: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Navbar --- */
+.navbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 50px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky; top: 0; z-index: 100;
+}
+.navbar .logo { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: #6c5ce7; }
+.navbar .nav-links a { margin-left: 20px; font-weight: 500; color: #555; text-decoration: none; }
+.navbar .nav-links a.active { color: #6c5ce7; font-weight: 700; }
+
+/* --- Subnav --- */
+.subnav {
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+    background-color: #f7f7f7;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+.subnav .center-links a { margin: 0 15px; font-weight: 500; color: #555; text-decoration: none; }
+.subnav .center-links a.active, .subnav .center-links a:hover { color: #6c5ce7; font-weight: 700; }
+
+.subnav .logged-info {
+    position: absolute;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+.subnav .logged-info form { display: inline; }
+.subnav .logged-info button { padding: 5px 10px; cursor: pointer; background: #6c5ce7; border: none; color: #fff; border-radius: 5px; }
+
+/* --- Content --- */
+.cso-content {
+    flex: 1;
+    padding: 40px 50px;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+th { background: #6c5ce7; color: #fff; }
+tr:nth-child(even) { background: #f7f7f7; }
+
+/* --- Footer --- */
+footer { padding: 20px 0; text-align: center; font-size: 14px; color: #888; }
+
+@media (max-width: 768px) {
+    .navbar, .subnav { flex-direction: column; }
+    .cso-content { padding: 20px; }
+    .subnav .logged-info { position: static; margin-top: 10px; }
+}
+</style>
+</head>
+<body>
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo">Xsort</div>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">HOME</a>
+        <a href="{{ url_for('cso') }}" class="active">CSO</a>
+    </div>
+</div>
+
+<!-- Subnav -->
+<div class="subnav">
+    <div class="center-links">
+        <a href="{{ url_for('cso_problems') }}">Problems</a>
+        <a href="{{ url_for('cso_leaderboard') }}" class="active">Leaderboard</a>
+    </div>
+
+    {% if logged_in %}
+    <div class="logged-info">
+        Logged in as <strong>{{ username }}</strong> | Points: {{ points }}
+        <form action="{{ url_for('cso_logout') }}" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Content -->
+<div class="cso-content">
+    <h1>Leaderboard</h1>
+    {% if leaderboard %}
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Points</th>
+        </tr>
+        {% for user in leaderboard %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.points }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No users yet.</p>
+    {% endif %}
+</div>
+
+<footer>&copy; 2025 Xsort at ASFA</footer>
+</body>
+</html>

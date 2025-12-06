@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mailing List</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; background: #1a1a2e; color: #fff; }
+        h1 { color: #9b59ff; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+    <h1>Mailing List</h1>
+    <ul>
+        {% for email in emails %}
+            <li>{{ email[0] }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}" style="color:#6c5ce7;">Back to Home</a>
+</body>
+</html>

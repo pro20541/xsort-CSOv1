@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xsort - Home</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Base --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #f1f1f1;
+            overflow-x: hidden;
+            position: relative;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- Animated Gradient Background --- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -4;
+            background: linear-gradient(270deg, #0f2027, #203a43, #2c5364, #6c5ce7, #9b59ff);
+            background-size: 1000% 1000%;
+            animation: gradientMove 30s ease infinite;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Flowing Particles --- */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(155,89,255,0.15) 2%, transparent 2%) repeat;
+            background-size: 50px 50px;
+            animation: flowParticles 60s linear infinite;
+            z-index: -3;
+            pointer-events: none;
+        }
+        @keyframes flowParticles {
+            0% { transform: translate(0,0) rotate(0deg); }
+            50% { transform: translate(25%,25%) rotate(180deg); }
+            100% { transform: translate(0,0) rotate(360deg); }
+        }
+
+        /* --- Floating Light Orbs --- */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 0 60px rgba(155, 89, 255,0.4), 0 0 120px rgba(155, 89, 255,0.2);
+            pointer-events: none;
+            animation: floatOrb linear infinite;
+        }
+        @keyframes floatOrb {
+            0% { transform: translateY(0) translateX(0) scale(1); }
+            50% { transform: translateY(-50px) translateX(50px) scale(1.2); }
+            100% { transform: translateY(0) translateX(0) scale(1); }
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .navbar .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 26px; font-weight: 700; letter-spacing: 2px; color: #fff;
+        }
+        .navbar .nav-links { display: flex; gap: 30px; }
+        .navbar .nav-links a {
+            font-weight: 500; font-size: 17px;
+            padding: 8px 12px; border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .navbar .nav-links a:hover,
+        .navbar .nav-links a.active { background: rgba(155,89,255,0.2); color: #9b59ff; }
+
+        /* --- Hero Section --- */
+        .hero {
+            flex: 1; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 80px 20px;
+        }
+        .hero h1 {
+            font-size: 64px; font-weight: 700; color: #fff;
+            margin-bottom: 20px; text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 22px; color: #e0e0e0;
+            max-width: 800px; margin-bottom: 40px; line-height: 1.6;
+        }
+
+        /* --- Mailing List --- */
+        .mailing-form { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .mailing-form input[type="email"] {
+            padding: 15px 20px; font-size: 16px; border-radius: 8px;
+            border: none; width: 300px; transition: all 0.3s ease;
+        }
+        .mailing-form input[type="email"]:focus {
+            outline: none; box-shadow: 0 0 0 3px rgba(155, 89, 255, 0.5);
+        }
+        .mailing-form button {
+            padding: 15px 30px; font-size: 16px; font-weight: 600;
+            border-radius: 8px; border: none;
+            background: linear-gradient(135deg, #9b59ff, #6c5ce7);
+            color: #fff; cursor: pointer; transition: all 0.3s ease;
+        }
+        .mailing-form button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(155,89,255,0.4); }
+
+        /* --- Flash Messages --- */
+        .flash-messages {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(155,89,255,0.4);
+            z-index: 200;
+            animation: fadeInOut 4s forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* --- Footer --- */
+        footer { padding: 20px 0; text-align: center; font-size: 14px; color: rgba(255,255,255,0.5); }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 48px; }
+            .hero p { font-size: 18px; }
+            .mailing-form input[type="email"] { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">Xsort</div>
+        <div class="nav-links">
+            <a href="index" class="active">HOME</a>
+            <a href="cso">CSO</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to Xsort</h1>
+        <p>Xsort is ASFA's premier club for coders and creative problem solvers. From coding competitions and cybersecurity challenges to AI projects and innovative solutions, we empower students to excel in a wide range of fields.</p>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for msg in messages %}
+                        <p>{{ msg }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="mailing-form">
+            <form action="/subscribe" method="POST">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>&copy; 2025 Xsort at ASFA</footer>
+
+    <!-- Floating Orbs -->
+    <script>
+        const colors = ['#9b59ff','#6c5ce7','#00d2ff','#ff6b81'];
+        for(let i=0; i<20; i++){
+            let orb = document.createElement('div');
+            orb.classList.add('orb');
+            let size = Math.random() * 60 + 20;
+            orb.style.width = size+'px';
+            orb.style.height = size+'px';
+            orb.style.top = Math.random()*100 + 'vh';
+            orb.style.left = Math.random()*100 + 'vw';
+            orb.style.animationDuration = (Math.random()*30 + 20) + 's';
+            orb.style.background = colors[Math.floor(Math.random()*colors.length)] + '30';
+            document.body.appendChild(orb);
+        }
+    </script>
+</body>
+</html>
